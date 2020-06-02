@@ -11,6 +11,7 @@ import UIKit
 class MoviesListViewController: UIViewController {
     
     let listMovieView: ListMovieView = ListMovieView()
+    var movieDatasource: MoviesListDataSource?
     
     override func loadView() {
         overrideUserInterfaceStyle = .dark
@@ -19,6 +20,22 @@ class MoviesListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "Movies"
+        self.setupDatasourceAndDelegates()
+        
 
     }
+    override func viewWillAppear(_ animated: Bool) {
+           super.viewWillAppear(animated)
+           movieDatasource?.reloadCollection()
+       }
+    
+    fileprivate func setupDatasourceAndDelegates() {
+           self.movieDatasource = MoviesListDataSource(listMovies: [], collectionView: listMovieView.collectionView)
+//        self.movieDatasource?.delegate = self
+
+       }
+    
 }
+
+

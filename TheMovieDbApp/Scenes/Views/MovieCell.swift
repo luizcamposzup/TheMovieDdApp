@@ -15,13 +15,15 @@ class MovieCell: UICollectionViewCell {
     lazy var movieImage: UIImageView = {
         let view = UIImageView(frame: .zero)
         view.contentMode = .scaleAspectFit
+        view.backgroundColor = .systemGray6
         return view
     }()
     
     lazy var movieTitle: UILabel = {
         let view = UILabel(frame: .zero)
-        view.textColor = UIColor.lightGray
-        view.textAlignment = .left
+        view.textColor = .orange
+        view.backgroundColor = .systemGray6
+        view.textAlignment = .center
         view.numberOfLines = 0
         view.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.medium)
         return view
@@ -41,7 +43,7 @@ class MovieCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func fill(movie: Movie) {
+    func setMovie(movie: Movie) {
         self.movieTitle.text = movie.title
         if let urlMovie = movie.poster_path {
             let url = URL(string:
@@ -69,16 +71,15 @@ extension MovieCell: CodeView {
     func setupConstraints() {
         
         movieImage.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(5)
-            make.left.equalToSuperview().offset(10)
-            make.bottom.equalToSuperview().inset(5)
-            make.width.equalTo(90)
+            make.width.equalTo(self.snp.width)
+            make.left.top.right.equalToSuperview()
+            make.bottom.equalTo(self.snp.bottom).inset(60)
         }
         
         movieTitle.snp.makeConstraints { make in
-            make.left.equalTo(movieImage.snp.right).offset(10)
-            make.centerY.equalTo(movieImage.self)
-            make.right.equalToSuperview().inset(10)
+            make.width.equalTo(self.snp.width)
+            make.top.equalTo(movieImage.snp.bottom).inset(5)
+            make.left.bottom.right.equalToSuperview()
         }
     }
 }

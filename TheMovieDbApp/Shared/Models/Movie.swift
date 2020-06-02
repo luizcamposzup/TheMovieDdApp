@@ -13,7 +13,7 @@ struct MovieResponse: Decodable {
 }
 
 struct Movie: Decodable {
-    let poster_path : String?
+     let poster_path : String?
      let adult : Bool?
      let overview : String?
      let release_date : String?
