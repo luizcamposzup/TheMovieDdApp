@@ -32,10 +32,29 @@ class MoviesListViewController: UIViewController {
     
     fileprivate func setupDatasourceAndDelegates() {
            self.movieDatasource = MoviesListDataSource(listMovies: [], collectionView: listMovieView.collectionView)
-//        self.movieDatasource?.delegate = self
+        self.movieDatasource?.delegate = self
+        self.listMovieView.searchDelegate = self
 
        }
     
 }
 
+extension MoviesListViewController: MoviesListSearchProtocol {
+    
+    func searchMovies(nameMovie: String) {
+    }
+}
+
+extension MoviesListViewController: UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate {
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        
+    }
+}
+
+extension MoviesListViewController: MoviesDatasourceDelegateProtocol {
+    func didSelectCell(with movie: Movie) {
+        
+    }
+}
 

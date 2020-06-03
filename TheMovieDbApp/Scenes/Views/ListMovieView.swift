@@ -12,6 +12,7 @@ import SnapKit
 
 final class ListMovieView: UIView {
     
+    weak var searchDelegate: MoviesListSearchProtocol?
     
     override init(frame: CGRect = .zero) {
         super.init(frame: frame)
@@ -30,31 +31,52 @@ final class ListMovieView: UIView {
     
     lazy var flowLayout: UICollectionViewFlowLayout = {
         let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.sectionInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
-        flowLayout.minimumInteritemSpacing = 15
-        flowLayout.minimumLineSpacing = 15
+        flowLayout.sectionInset = UIEdgeInsets(top: 12 , left: 12, bottom: 12, right: 12)
+        flowLayout.minimumInteritemSpacing = 10
+        flowLayout.minimumLineSpacing = 10
         return flowLayout
     }()
     
-    
+    lazy var searchBar: UISearchBar = {
+        let view = UISearchBar()
+         view.placeholder = "Digite o nome do filme."
+         view.delegate = self
+         return view
+     }()
 }
 
 extension ListMovieView: CodeView {
     
     func buildViewHierarchy() {
-        self.addSubview(self.collectionView)
         
+        self.addSubview(self.searchBar)
+        self.addSubview(self.collectionView)
     }
     
     func setupConstraints() {
         
+        self.searchBar.snp.makeConstraints { make in
+            make.left.equalTo(self)
+            make.right.equalTo(self)
+            make.top.equalToSuperview().offset(40)
+        }
+        
         self.collectionView.snp.makeConstraints { make in
             make.left.equalTo(self)
             make.right.equalTo(self)
-            make.top.equalTo(self)
+            make.top.equalTo(self.searchBar.snp.bottom)
             make.bottom.equalTo(self)
         }
     }
+}
+
+extension ListMovieView: UISearchBarDelegate {
     
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        if !searchText.isEmpty {
+            self.searchDelegate?.searchMovies(nameMovie: searchText)
+        }
+    }
 }
 

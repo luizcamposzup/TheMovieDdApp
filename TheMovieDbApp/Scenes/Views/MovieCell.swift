@@ -14,7 +14,7 @@ class MovieCell: UICollectionViewCell {
     
     lazy var movieImage: UIImageView = {
         let view = UIImageView(frame: .zero)
-        view.contentMode = .scaleAspectFit
+        view.contentMode = .scaleAspectFill
         view.backgroundColor = .systemGray6
         return view
     }()
@@ -73,12 +73,12 @@ extension MovieCell: CodeView {
         movieImage.snp.makeConstraints { make in
             make.width.equalTo(self.snp.width)
             make.left.top.right.equalToSuperview()
-            make.bottom.equalTo(self.snp.bottom).inset(60)
+            make.bottom.equalTo(self.snp.bottom).inset(20)
         }
         
         movieTitle.snp.makeConstraints { make in
             make.width.equalTo(self.snp.width)
-            make.top.equalTo(movieImage.snp.bottom).inset(5)
+            make.top.equalTo(movieImage.snp.bottom).inset(25)
             make.left.bottom.right.equalToSuperview()
         }
     }
