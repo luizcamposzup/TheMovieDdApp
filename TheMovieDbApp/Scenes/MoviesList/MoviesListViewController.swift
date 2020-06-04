@@ -8,10 +8,16 @@
 
 import UIKit
 
-class MoviesListViewController: UIViewController {
-    
+protocol MoviesListDisplayLogic: class {
+    func displayMovies(viewModel: MoviesList.FetchMovies.ViewModel)
+}
+
+class MoviesListViewController: UIViewController, MoviesListDisplayLogic {
+   
+    var interactor: MoviesListBusinessLogic?
     let listMovieView: ListMovieView = ListMovieView()
     var movieDatasource: MoviesListDataSource?
+    var router: (NSObjectProtocol & MoviesListRoutingLogic & MoviesListDataPassing)?
     
     override func loadView() {
         overrideUserInterfaceStyle = .dark
@@ -22,9 +28,11 @@ class MoviesListViewController: UIViewController {
         super.viewDidLoad()
         self.title = "Movies"
         self.setupDatasourceAndDelegates()
-        
-
+        setup()
+        fetchMovie()
+        print("viewdidload")
     }
+    
     override func viewWillAppear(_ animated: Bool) {
            super.viewWillAppear(animated)
            movieDatasource?.reloadCollection()
@@ -37,11 +45,50 @@ class MoviesListViewController: UIViewController {
 
        }
     
+    func setup() {
+        let viewController = self
+        let interactor = MoviesListInteractor()
+        let presenter = MoviesListPresenter()
+        let router = MoviesListRouter()
+        
+        viewController.interactor = interactor
+        viewController.router = router
+        interactor.presenter = presenter
+        presenter.viewController = viewController
+        router.viewController = viewController
+        router.dataSource = interactor
+        print("setup")
+    }
+    
+    func fetchMovie(){
+        let request = MoviesList.FetchMovies.Request()
+        interactor?.fetchMovies(request: request)
+        print("fetchmoviesVC")
+    }
+    
+    func search() {
+        let request = MoviesList.SearchMovie.Request(movieName: "teste")
+        interactor?.searchMovie(request: request)
+    }
+    
+//    private func fetchDoors() {
+//        startLoading(with: R.string.localizable.searchingNearestDoor())
+//        let request = Unlock.FetchDoors.Request()
+//        interactor?.fetchDoors(request: request)
+//    }
+    
+    func displayMovies(viewModel: MoviesList.FetchMovies.ViewModel) {
+       //passar response da api
+        
+       }
+    
 }
 
 extension MoviesListViewController: MoviesListSearchProtocol {
     
     func searchMovies(nameMovie: String) {
+        let request = MoviesList.SearchMovie.Request(movieName: nameMovie)
+//        interactor?.fetchMovies(request: request)
     }
 }
 

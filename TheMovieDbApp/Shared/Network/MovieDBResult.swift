@@ -1,5 +1,5 @@
 //
-//  APIError.swift
+//  Result.swift
 //  TheMovieDbApp
 //
 //  Created by zupper on 03/06/20.
@@ -8,7 +8,14 @@
 
 import Foundation
 
-enum APIError: Error {
+typealias FetchMoviesCompletionHandler = (MovieDBResult<[Movie]>) -> Void
+
+enum MovieDBResult<U> {
+    case success(result: U)
+    case failure(error: MovieDBError)
+}
+
+enum MovieDBError: Error {
     
     case responseProblem
     case decodingProblem
