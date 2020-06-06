@@ -39,10 +39,10 @@ final class ListMovieView: UIView {
     
     lazy var searchBar: UISearchBar = {
         let view = UISearchBar()
-         view.placeholder = "Digite o nome do filme."
-         view.delegate = self
-         return view
-     }()
+        view.placeholder = "Digite o nome do filme."
+        view.delegate = self
+        return view
+    }()
 }
 
 extension ListMovieView: CodeView {

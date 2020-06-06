@@ -25,16 +25,15 @@ extension Endpoint {
     var urlComponents: URLComponents {
         var components = URLComponents(string: base)!
         components.path = path
-            let searchQuery = URLQueryItem(name: "query", value: query)
-            let apiQuery = URLQueryItem(name: "api_key", value: apiKey)
-            let languageQuery = URLQueryItem(name: "language", value: language)
-            components.queryItems = [apiQuery,searchQuery, languageQuery]
+        let searchQuery = URLQueryItem(name: "query", value: query)
+        let apiQuery = URLQueryItem(name: "api_key", value: apiKey)
+        let languageQuery = URLQueryItem(name: "language", value: language)
+        components.queryItems = [apiQuery,searchQuery, languageQuery]
         components.queryItems = components.queryItems?.filter { $0.value != nil}
         return components
     }
     
     var request: URLRequest {
-        print("endpointreq")
         let url = urlComponents.url!
         return URLRequest(url: url)
     }
@@ -53,12 +52,12 @@ extension TheMovieDbAPI : Endpoint {
     }
     
     var query:  String? {
-           switch self {
-           case .search(let movieName):
-               return "\(movieName)"
-           default:
-               return nil
-           }
+        switch self {
+        case .search(let movieName):
+            return "\(movieName)"
+        default:
+            return nil
+        }
     }
     
     var path: String {

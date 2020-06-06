@@ -12,12 +12,12 @@ protocol APIClient {
     
     var session: URLSession { get }
     
-    func fetch<T: Decodable>(with request: URLRequest, decode: @escaping (Decodable) -> MovieResponse?, completion: @escaping (MovieDBResult<T>) -> Void)
+    func fetch<T: Decodable>(with request: URLRequest, decode: @escaping (Decodable) -> T?, completion: @escaping (Result<T, APIError>) -> Void)
 }
 
 extension APIClient {
     
-    typealias JSONTaskCompletionHandler = (Decodable?, MovieDBError?) -> Void
+    typealias JSONTaskCompletionHandler = (Decodable?, APIError?) -> Void
     
     func decodingTask<T: Decodable>(with request: URLRequest, decodingType: T.Type, completionHandler completion: @escaping JSONTaskCompletionHandler) -> URLSessionDataTask {
         
@@ -45,23 +45,22 @@ extension APIClient {
         return task
     }
     
-    func fetch<T: Decodable>(with request: URLRequest, decode: @escaping (Decodable) -> T?, completion: @escaping (MovieDBResult<T>) -> Void) {
-        print("fetch Apiclient")
+    func fetch<T: Decodable>(with request: URLRequest, decode: @escaping (Decodable) -> T?, completion: @escaping (Result<T, APIError>) -> Void) {
         let task = decodingTask(with: request, decodingType: T.self) { (json , error) in
             //MARK: change to main queue
             DispatchQueue.main.async {
                 guard let json = json else {
                     if let error = error {
-                        completion(MovieDBResult.failure(error: error))
+                        completion(Result.failure(error))
                     } else {
-                        completion(MovieDBResult.failure(error: .invalidData))
+                        completion(Result.failure(.invalidData))
                     }
                     return
                 }
                 if let value = decode(json) {
-                    completion(.success(result: value))
+                    completion(.success(value))
                 } else {
-                    completion(.failure(error: .responseProblem))
+                    completion(.failure(.responseProblem))
                 }
             }
         }

@@ -16,12 +16,18 @@ enum MoviesList {
         }
         
         struct Response {
-            var results : [Movie]
+            var movies : [Movie]?
+            var erros : APIError?
         }
         
         struct ViewModel {
-            var poster_path : String?
-            var title : String?
+            let films : [Film]
+            
+            struct Film {
+                let movieImage: String
+                let movieName: String
+                let movieDescription: String
+            }
         }
     }
     
@@ -32,11 +38,12 @@ enum MoviesList {
         }
         
         struct Response {
-            var results : MovieResponse
+            var movies : [Movie]
         }
         
         struct ViewModel {
-            var poster_path : String?
+            var movieImage : String
+            var overview : String?
             var title : String?
         }
     }

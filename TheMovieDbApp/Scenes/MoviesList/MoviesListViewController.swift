@@ -13,7 +13,7 @@ protocol MoviesListDisplayLogic: class {
 }
 
 class MoviesListViewController: UIViewController, MoviesListDisplayLogic {
-   
+    
     var interactor: MoviesListBusinessLogic?
     let listMovieView: ListMovieView = ListMovieView()
     var movieDatasource: MoviesListDataSource?
@@ -23,27 +23,26 @@ class MoviesListViewController: UIViewController, MoviesListDisplayLogic {
         overrideUserInterfaceStyle = .dark
         self.view = listMovieView
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Movies"
-        self.setupDatasourceAndDelegates()
+        
         setup()
         fetchMovie()
-        print("viewdidload")
+        //        self.setupDatasourceAndDelegates()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-           super.viewWillAppear(animated)
-           movieDatasource?.reloadCollection()
-       }
+        super.viewWillAppear(animated)
+        movieDatasource?.reloadCollection()
+    }
     
     fileprivate func setupDatasourceAndDelegates() {
-           self.movieDatasource = MoviesListDataSource(listMovies: [], collectionView: listMovieView.collectionView)
         self.movieDatasource?.delegate = self
         self.listMovieView.searchDelegate = self
-
-       }
+        
+    }
     
     func setup() {
         let viewController = self
@@ -57,30 +56,19 @@ class MoviesListViewController: UIViewController, MoviesListDisplayLogic {
         presenter.viewController = viewController
         router.viewController = viewController
         router.dataSource = interactor
-        print("setup")
     }
     
     func fetchMovie(){
         let request = MoviesList.FetchMovies.Request()
         interactor?.fetchMovies(request: request)
-        print("fetchmoviesVC")
     }
-    
-    func search() {
-        let request = MoviesList.SearchMovie.Request(movieName: "teste")
-        interactor?.searchMovie(request: request)
-    }
-    
-//    private func fetchDoors() {
-//        startLoading(with: R.string.localizable.searchingNearestDoor())
-//        let request = Unlock.FetchDoors.Request()
-//        interactor?.fetchDoors(request: request)
-//    }
     
     func displayMovies(viewModel: MoviesList.FetchMovies.ViewModel) {
-       //passar response da api
         
-       }
+        self.movieDatasource = MoviesListDataSource(listMovies: viewModel,
+                                                    collectionView: listMovieView.collectionView)
+        setupDatasourceAndDelegates()
+    }
     
 }
 
@@ -88,7 +76,7 @@ extension MoviesListViewController: MoviesListSearchProtocol {
     
     func searchMovies(nameMovie: String) {
         let request = MoviesList.SearchMovie.Request(movieName: nameMovie)
-//        interactor?.fetchMovies(request: request)
+        interactor?.searchMovie(request: request)
     }
 }
 
@@ -100,7 +88,7 @@ extension MoviesListViewController: UISearchControllerDelegate, UISearchResultsU
 }
 
 extension MoviesListViewController: MoviesDatasourceDelegateProtocol {
-    func didSelectCell(with movie: Movie) {
+    func didSelectCell(with movie: MoviesList.FetchMovies.ViewModel.Film) {
         
     }
 }

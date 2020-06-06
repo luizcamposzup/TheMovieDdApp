@@ -34,31 +34,29 @@ class MovieCell: UICollectionViewCell {
         super.init(frame: frame)
         setupView()
     }
-
+    
     override func layoutSubviews() {
         super.layoutSubviews()
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setMovie(movie: Movie) {
-        self.movieTitle.text = movie.title
-        if let urlMovie = movie.poster_path {
-            let url = URL(string:
-                "https://image.tmdb.org/t/p/w300\(urlMovie)")
+    func setMovie(movie: MoviesList.FetchMovies.ViewModel.Film) {
+        self.movieTitle.text = movie.movieName
+        let urlMovie = movie.movieImage
+        let url = URL(string:
+            "https://image.tmdb.org/t/p/w300\(urlMovie)")
+        
+        let task = URLSession.shared.dataTask(with: url!) { data, response, error in
+            guard let data = data, error == nil else { return }
             
-            let task = URLSession.shared.dataTask(with: url!) { data, response, error in
-                guard let data = data, error == nil else { return }
-                
-                DispatchQueue.main.async() {    // execute on main thread
-                    self.movieImage.image = UIImage(data: data)
-                }
+            DispatchQueue.main.async() {    // execute on main thread
+                self.movieImage.image = UIImage(data: data)
             }
-            
-            task.resume()
         }
+        task.resume()
     }
 }
 

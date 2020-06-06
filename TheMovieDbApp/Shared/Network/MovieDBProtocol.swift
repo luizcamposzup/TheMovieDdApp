@@ -10,11 +10,10 @@ import Foundation
 
 
 protocol MovieDBProtocol : APIClient {
-    func getFeed(from movieFeedType: TheMovieDbAPI, completion: @escaping FetchMoviesCompletionHandler)
+    func getFeed(from movieFeedType: TheMovieDbAPI, completion: @escaping (Result<MovieResponse?, APIError>) -> Void)
 }
 
-class MovieClient: MovieDBProtocol {
-    
+class MoviesClient: MovieDBProtocol {
     
     let session: URLSession
     
@@ -27,18 +26,15 @@ class MovieClient: MovieDBProtocol {
     }
     
     func fetch<T>(with request: URLRequest, decode: @escaping (Decodable) -> MovieResponse?, completion: @escaping (MovieDBResult<T>) -> Void) where T : Decodable {
-       }
+    }
     
-
-    func getFeed(from movieFeedType: TheMovieDbAPI, completion: @escaping FetchMoviesCompletionHandler) {
+    
+    func getFeed(from movieFeedType: TheMovieDbAPI, completion: @escaping (Result<MovieResponse?, APIError>) -> Void) {
         let endpoint = movieFeedType
         let request = endpoint.request
-        print("client")
         
         fetch(with: request, decode: { json -> MovieResponse? in
-            print("client fetch")
             guard let movieFeedResult = json as? MovieResponse else {
-                print(" error client fetch")
                 return nil
             }
             return movieFeedResult
