@@ -10,7 +10,7 @@ import UIKit
 
 protocol MoviesListBusinessLogic {
     func fetchMovies(request: MoviesList.FetchMovies.Request)
-    func searchMovie(request: MoviesList.SearchMovie.Request)
+    func searchMovie(request: MoviesList.FetchMovies.Request)
 }
 
 protocol MovieListDataSource {
@@ -18,6 +18,7 @@ protocol MovieListDataSource {
 }
 
 class MoviesListInteractor : MoviesListBusinessLogic, MovieListDataSource {
+    
     
     var presenter: MoviesListPresentationLogic?
     var worker: MoviesListWorker?
@@ -39,7 +40,7 @@ class MoviesListInteractor : MoviesListBusinessLogic, MovieListDataSource {
         })
     }
     
-    func searchMovie(request: MoviesList.SearchMovie.Request) {
+    func searchMovie(request: MoviesList.FetchMovies.Request) {
         worker = MoviesListWorker()
         worker?.getFeed(from: .search(nameMovie: request.movieName!), completion: { result in
             

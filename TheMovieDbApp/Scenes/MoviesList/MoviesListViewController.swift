@@ -27,10 +27,8 @@ class MoviesListViewController: UIViewController, MoviesListDisplayLogic {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Movies"
-        
         setup()
         fetchMovie()
-        //        self.setupDatasourceAndDelegates()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -59,7 +57,7 @@ class MoviesListViewController: UIViewController, MoviesListDisplayLogic {
     }
     
     func fetchMovie(){
-        let request = MoviesList.FetchMovies.Request()
+        let request = MoviesList.FetchMovies.Request(movieName: nil, page: 1)
         interactor?.fetchMovies(request: request)
     }
     
@@ -75,15 +73,8 @@ class MoviesListViewController: UIViewController, MoviesListDisplayLogic {
 extension MoviesListViewController: MoviesListSearchProtocol {
     
     func searchMovies(nameMovie: String) {
-        let request = MoviesList.SearchMovie.Request(movieName: nameMovie)
+        let request = MoviesList.FetchMovies.Request(movieName: nameMovie)
         interactor?.searchMovie(request: request)
-    }
-}
-
-extension MoviesListViewController: UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate {
-    
-    func updateSearchResults(for searchController: UISearchController) {
-        
     }
 }
 
@@ -93,3 +84,9 @@ extension MoviesListViewController: MoviesDatasourceDelegateProtocol {
     }
 }
 
+
+
+//func addMovies(newMovies: [Movie]) {
+//    self.movies.append(contentsOf: newMovies)
+//    self.reloadCollection()
+//}

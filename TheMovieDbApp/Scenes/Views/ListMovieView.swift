@@ -31,9 +31,9 @@ final class ListMovieView: UIView {
     
     lazy var flowLayout: UICollectionViewFlowLayout = {
         let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.sectionInset = UIEdgeInsets(top: 12 , left: 12, bottom: 12, right: 12)
-        flowLayout.minimumInteritemSpacing = 10
-        flowLayout.minimumLineSpacing = 10
+        flowLayout.sectionInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
+        flowLayout.minimumInteritemSpacing = 15
+        flowLayout.minimumLineSpacing = 15
         return flowLayout
     }()
     

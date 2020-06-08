@@ -12,7 +12,6 @@ protocol MoviesListPresentationLogic {
     func presentMovies(request: MoviesList.FetchMovies.Response)
 }
 
-
 class MoviesListPresenter : MoviesListPresentationLogic {
     
     weak var viewController: MoviesListDisplayLogic?
@@ -34,7 +33,12 @@ class MoviesListPresenter : MoviesListPresentationLogic {
     }
     
     func getImage(from response: Movie) -> String {
-        return response.poster_path!
+        
+        if response.poster_path == nil {
+            return ""
+        } else {
+            return response.poster_path!
+        }
     }
     
     func getName(from response: Movie) -> String {
@@ -42,6 +46,10 @@ class MoviesListPresenter : MoviesListPresentationLogic {
     }
     
     func getDescription(from response: Movie) -> String {
-        return response.overview!
+        if response.overview == nil {
+            return "Este filme não possui descrição cadastrada."
+        } else {
+            return response.overview!
+        }
     }
 }

@@ -45,18 +45,22 @@ class MovieCell: UICollectionViewCell {
     
     func setMovie(movie: MoviesList.FetchMovies.ViewModel.Film) {
         self.movieTitle.text = movie.movieName
-        let urlMovie = movie.movieImage
-        let url = URL(string:
-            "https://image.tmdb.org/t/p/w300\(urlMovie)")
-        
-        let task = URLSession.shared.dataTask(with: url!) { data, response, error in
-            guard let data = data, error == nil else { return }
+        if movie.movieImage == "" {
+            self.movieImage.image = UIImage(named: "NoImage")
+        } else {
+            let urlMovie = movie.movieImage
+            let url = URL(string:
+                "https://image.tmdb.org/t/p/w300\(urlMovie)")
             
-            DispatchQueue.main.async() {    // execute on main thread
-                self.movieImage.image = UIImage(data: data)
+            let task = URLSession.shared.dataTask(with: url!) { data, response, error in
+                guard let data = data, error == nil else { return }
+                
+                DispatchQueue.main.async() {    // execute on main thread
+                    self.movieImage.image = UIImage(data: data)
+                }
             }
+            task.resume()
         }
-        task.resume()
     }
 }
 

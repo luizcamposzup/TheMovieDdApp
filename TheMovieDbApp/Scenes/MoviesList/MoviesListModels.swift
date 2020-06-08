@@ -13,6 +13,8 @@ enum MoviesList {
     enum FetchMovies {
         
         struct Request {
+            var movieName : String?
+            var page : Int?
         }
         
         struct Response {
@@ -30,22 +32,4 @@ enum MoviesList {
             }
         }
     }
-    
-    enum SearchMovie {
-        
-        struct Request {
-            var movieName : String?
-        }
-        
-        struct Response {
-            var movies : [Movie]
-        }
-        
-        struct ViewModel {
-            var movieImage : String
-            var overview : String?
-            var title : String?
-        }
-    }
-    
 }
