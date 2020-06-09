@@ -11,6 +11,7 @@ import Foundation
 
 protocol MovieDBProtocol : APIClient {
     func getFeed(from movieFeedType: TheMovieDbAPI, completion: @escaping (Result<MovieResponse?, APIError>) -> Void)
+    func SearchMovieID(from movieFeedType: TheMovieDbAPI, completion: @escaping (Result<Movie?, APIError>) -> Void)
 }
 
 class MoviesClient: MovieDBProtocol {
@@ -35,6 +36,18 @@ class MoviesClient: MovieDBProtocol {
         
         fetch(with: request, decode: { json -> MovieResponse? in
             guard let movieFeedResult = json as? MovieResponse else {
+                return nil
+            }
+            return movieFeedResult
+        }, completion: completion)
+    }
+    
+    func SearchMovieID(from movieFeedType: TheMovieDbAPI, completion: @escaping (Result<Movie?, APIError>) -> Void) {
+        let endpoint = movieFeedType
+        let request = endpoint.request
+        
+        fetch(with: request, decode: { json -> Movie? in
+            guard let movieFeedResult = json as? Movie else {
                 return nil
             }
             return movieFeedResult

@@ -12,6 +12,10 @@ struct MovieResponse: Decodable {
     var results : [Movie]
 }
 
+struct MovieIdResponse: Decodable {
+    var results : Movie
+}
+
 struct Movie: Decodable {
     let poster_path : String?
     let adult : Bool?

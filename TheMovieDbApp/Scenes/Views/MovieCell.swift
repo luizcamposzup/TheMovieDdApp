@@ -16,6 +16,7 @@ class MovieCell: UICollectionViewCell {
         let view = UIImageView(frame: .zero)
         view.contentMode = .scaleAspectFill
         view.backgroundColor = .systemGray6
+        
         return view
     }()
     

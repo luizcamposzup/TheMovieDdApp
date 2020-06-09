@@ -33,7 +33,7 @@ class MoviesListInteractor : MoviesListBusinessLogic, MovieListDataSource {
                 let response = MoviesList.FetchMovies.Response(movies: self.movies)
                 self.presenter?.presentMovies(request: response)
             case .failure(let error):
-                let response = MoviesList.FetchMovies.Response(movies: nil , erros: error)
+                let response = MoviesList.FetchMovies.Response(movies: nil , error: error)
                 self.presenter?.presentMovies(request: response)
                 print(error)
             }
@@ -47,10 +47,10 @@ class MoviesListInteractor : MoviesListBusinessLogic, MovieListDataSource {
             switch result {
             case .success(let data):
                 self.movies = data!.results
-                let response = MoviesList.FetchMovies.Response(movies: self.movies, erros: nil)
+                let response = MoviesList.FetchMovies.Response(movies: self.movies, error: nil)
                 self.presenter?.presentMovies(request: response)
             case .failure(let error):
-                let response = MoviesList.FetchMovies.Response(movies: nil , erros: error)
+                let response = MoviesList.FetchMovies.Response(movies: nil , error: error)
                 self.presenter?.presentMovies(request: response)
                 print(error)
             }

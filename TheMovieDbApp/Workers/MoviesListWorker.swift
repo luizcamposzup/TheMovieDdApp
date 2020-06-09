@@ -24,6 +24,18 @@ class MoviesListWorker {
         }
     }
     
+    func searchIdMovie(from movieFeedType: TheMovieDbAPI, completion: @escaping (Result<Movie?, APIError>) -> Void){
+        moviesClient.SearchMovieID(from: movieFeedType) { result in
+               switch result {
+               case .success(let data):
+                   completion(.success(data))
+               case .failure(let error):
+                   completion(.failure(error))
+                   print(error)
+               }
+           }
+       }
+    
     func getImageFromUrl(imageUrl: String?) -> UIImage {
         var movieImage = UIImage()
         if let urlMovie = imageUrl {

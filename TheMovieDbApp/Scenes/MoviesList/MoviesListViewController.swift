@@ -17,7 +17,7 @@ class MoviesListViewController: UIViewController, MoviesListDisplayLogic {
     var interactor: MoviesListBusinessLogic?
     let listMovieView: ListMovieView = ListMovieView()
     var movieDatasource: MoviesListDataSource?
-    var router: (NSObjectProtocol & MoviesListRoutingLogic & MoviesListDataPassing)?
+    
     
     override func loadView() {
         overrideUserInterfaceStyle = .dark
@@ -26,7 +26,6 @@ class MoviesListViewController: UIViewController, MoviesListDisplayLogic {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Movies"
         setup()
         fetchMovie()
     }
@@ -37,23 +36,18 @@ class MoviesListViewController: UIViewController, MoviesListDisplayLogic {
     }
     
     fileprivate func setupDatasourceAndDelegates() {
-        self.movieDatasource?.delegate = self
         self.listMovieView.searchDelegate = self
-        
+        self.movieDatasource?.delegate = self
     }
     
     func setup() {
         let viewController = self
         let interactor = MoviesListInteractor()
         let presenter = MoviesListPresenter()
-        let router = MoviesListRouter()
         
         viewController.interactor = interactor
-        viewController.router = router
         interactor.presenter = presenter
         presenter.viewController = viewController
-        router.viewController = viewController
-        router.dataSource = interactor
     }
     
     func fetchMovie(){
@@ -68,6 +62,7 @@ class MoviesListViewController: UIViewController, MoviesListDisplayLogic {
         setupDatasourceAndDelegates()
     }
     
+    
 }
 
 extension MoviesListViewController: MoviesListSearchProtocol {
@@ -81,12 +76,8 @@ extension MoviesListViewController: MoviesListSearchProtocol {
 extension MoviesListViewController: MoviesDatasourceDelegateProtocol {
     func didSelectCell(with movie: MoviesList.FetchMovies.ViewModel.Film) {
         
+        let vc = MovieDetailsViewController(with: movie)
+        vc.modalPresentationStyle = .automatic
+        self.present(vc, animated: false, completion: nil)
     }
 }
-
-
-
-//func addMovies(newMovies: [Movie]) {
-//    self.movies.append(contentsOf: newMovies)
-//    self.reloadCollection()
-//}

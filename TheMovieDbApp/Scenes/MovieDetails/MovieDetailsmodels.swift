@@ -1,35 +1,34 @@
 //
-//  MoviesListModels.swift
+//  MovieDetailsmodels.swift
 //  TheMovieDbApp
 //
-//  Created by zupper on 03/06/20.
+//  Created by zupper on 08/06/20.
 //  Copyright © 2020 Luizhcarminati. All rights reserved.
 //
 
 import UIKit
 
-enum MoviesList {
+enum MovieDetails {
     
-    enum FetchMovies {
+    enum SearchMovie {
         
         struct Request {
-            var movieName : String?
-            var page : Int?
+            var movieId : Int
         }
         
         struct Response {
-            var movies : [Movie]?
+            var movies : Movie?
             var error : APIError?
         }
         
         struct ViewModel {
-            let films : [Film]
+            let films : Film
             
             struct Film {
                 let movieImage: String
                 let movieName: String
                 let movieOverview: String
-                let movieId: Int
+                let voteAverage: Double
             }
         }
     }

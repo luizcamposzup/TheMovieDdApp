@@ -28,7 +28,6 @@ class MoviesListDataSource: NSObject {
         super.init()
         self.registerCell()
         self.setupCollectionView()
-        self.setMovies(movies: listMovies)
         
     }
     

@@ -13,7 +13,6 @@ protocol Endpoint {
     var base: String { get }
     var path: String { get }
     var query: String? { get }
-    var language: String? { get }
 }
 
 extension Endpoint {
@@ -27,8 +26,7 @@ extension Endpoint {
         components.path = path
         let searchQuery = URLQueryItem(name: "query", value: query)
         let apiQuery = URLQueryItem(name: "api_key", value: apiKey)
-        let languageQuery = URLQueryItem(name: "language", value: language)
-        components.queryItems = [apiQuery,searchQuery, languageQuery]
+        components.queryItems = [apiQuery,searchQuery]
         components.queryItems = components.queryItems?.filter { $0.value != nil}
         return components
     }
@@ -42,6 +40,7 @@ extension Endpoint {
 enum TheMovieDbAPI {
     case popular
     case search(nameMovie: String)
+    case searchId(movieId: Int)
 }
 
 
@@ -66,10 +65,8 @@ extension TheMovieDbAPI : Endpoint {
             return "/3/movie/popular"
         case .search:
             return "/3/search/movie"
+        case .searchId(let movieId):
+            return "/3/movie/\(movieId)"
         }
-    }
-    
-    var language: String? {
-        return "language=pt-BR"
     }
 }

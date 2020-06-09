@@ -25,7 +25,8 @@ class MoviesListPresenter : MoviesListPresentationLogic {
         let itens = response.movies?.map({
             MoviesList.FetchMovies.ViewModel.Film(movieImage: getImage(from: $0),
                                                   movieName: getName(from: $0),
-                                                  movieDescription: getDescription(from: $0))
+                                                  movieOverview: getDescription(from: $0),
+                                                  movieId: getId(from: $0))
         })
         
         return MoviesList.FetchMovies.ViewModel(films: itens ?? [])
@@ -51,5 +52,9 @@ class MoviesListPresenter : MoviesListPresentationLogic {
         } else {
             return response.overview!
         }
+    }
+    
+    func getId(from response: Movie) -> Int {
+        return response.id!
     }
 }
