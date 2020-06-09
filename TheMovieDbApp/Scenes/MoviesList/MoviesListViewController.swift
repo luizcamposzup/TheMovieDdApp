@@ -78,6 +78,6 @@ extension MoviesListViewController: MoviesDatasourceDelegateProtocol {
         
         let vc = MovieDetailsViewController(with: movie)
         vc.modalPresentationStyle = .automatic
-        self.present(vc, animated: false, completion: nil)
+        self.present(vc, animated: true, completion: nil)
     }
 }

@@ -134,16 +134,16 @@ extension MovieDetailsView : CodeView {
 //        }
         
         vote.snp.makeConstraints { (make) in
-            make.top.equalTo(favoriteButton.snp.bottom).offset(300)
+            make.top.equalTo(favoriteButton.snp.bottom).offset(330)
             make.left.equalToSuperview().inset(20)
             make.height.equalTo(40)
         }
         
         movieTitle.snp.makeConstraints { (make) in
-            make.top.equalTo(vote.snp.bottom).offset(30)
+            make.top.equalTo(vote.snp.bottom).offset(15)
             make.left.equalToSuperview().inset(20)
             make.right.equalToSuperview().inset(20)
-            make.height.equalTo(80)
+            make.height.equalTo(60)
         }
         
         overviewLabel.snp.makeConstraints { (make) in
