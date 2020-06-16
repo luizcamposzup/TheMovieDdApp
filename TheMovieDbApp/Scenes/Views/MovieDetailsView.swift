@@ -23,7 +23,7 @@ class MovieDetailsView: UIView {
         let view = UIImageView(frame: .zero)
         view.contentMode = .scaleAspectFill
         view.backgroundColor = .white
-        view.alpha = 0.4
+        view.alpha = 0.6
         return view
     }()
     
