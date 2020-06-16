@@ -20,7 +20,7 @@ public func >=<T: Comparable>(lhs: Expectation<T>, rhs: T) {
 #if canImport(Darwin) || !compiler(>=5.1)
 /// A Nimble matcher that succeeds when the actual value is greater than
 /// or equal to the expected value.
-public func beGreaterThanOrEqualTo<T: NMBComparable>(_ expectedValue: T?) -> Predicate<T> {
+public func beGreaterThanOrEqualTo<U: NMBComparable>(_ expectedValue: U?) -> Predicate<U> {
     let message = "be greater than or equal to <\(stringify(expectedValue))>"
     return Predicate.simple(message) { actualExpression in
         let actualValue = try actualExpression.evaluate()
@@ -29,7 +29,7 @@ public func beGreaterThanOrEqualTo<T: NMBComparable>(_ expectedValue: T?) -> Pre
     }
 }
 
-public func >=<T: NMBComparable>(lhs: Expectation<T>, rhs: T) {
+public func >=<U: NMBComparable>(lhs: Expectation<U>, rhs: U) {
     lhs.to(beGreaterThanOrEqualTo(rhs))
 }
 #endif
